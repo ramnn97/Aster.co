@@ -1,8 +1,13 @@
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 import PlaceholderImage from "./PlaceholderImage";
+import leadsPdf from "@/Leads.pdf";
+import coverHospital from "@/source/cover-hospital.png";
+import coverBhiwandi from "@/bhiwandi cover.png";
+import coverPerformance from "@/source/cover-performance.jpg";
 
-type Category = "all" | "performance" | "web" | "shoots" | "social";
+type Category = "all" | "performance" | "web";
 
 type ProjectCard = {
   id: number;
@@ -10,6 +15,8 @@ type ProjectCard = {
   subtitle: string;
   category: Category;
   tag: string;
+  link?: string;
+  cover?: string;
 };
 
 const projects: ProjectCard[] = [
@@ -19,41 +26,36 @@ const projects: ProjectCard[] = [
     subtitle: "Insta-first campaign layout built for ROAS and scale.",
     category: "performance",
     tag: "Performance Marketing",
+    link: leadsPdf,
+    cover: coverPerformance,
   },
   {
     id: 2,
-    title: "High-converting landing page",
+    title: "Hospital Website",
     subtitle: "Minimal hero, sharp hierarchy, and conversion-focused layout.",
     category: "web",
     tag: "Web Design",
+    link: "https://white-lotus-portal.vercel.app/",
+    cover: coverHospital,
   },
-  {
-    id: 3,
-    title: "Product shoot grid",
-    subtitle: "Clean tabletop product visuals with soft shadows.",
-    category: "shoots",
-    tag: "Shoots & Product Shoot",
-  },
-  {
-    id: 4,
-    title: "Lifestyle reel cover",
-    subtitle: "Scroll-stopping social visual made for Reels & Shorts.",
-    category: "social",
-    tag: "Social Media",
-  },
-  {
-    id: 5,
-    title: "Retargeting creative set",
-    subtitle: "Carousel-ready concepts for warm audience retargeting.",
-    category: "performance",
-    tag: "Performance Marketing",
-  },
+
+
   {
     id: 6,
-    title: "E‑commerce product page",
+    title: "High-end landing page",
     subtitle: "Clean layout to make products feel premium and effortless.",
     category: "web",
     tag: "Web Design",
+    link: "https://obys-agency-flame.vercel.app/",
+  },
+  {
+    id: 7,
+    title: "Bhiwandi Restaurant",
+    subtitle: "A rich, immersive restaurant website with elegant visuals and smooth experience.",
+    category: "web",
+    tag: "Web Design",
+    link: "https://restaurant-gules-three.vercel.app/",
+    cover: coverBhiwandi,
   },
 ];
 
@@ -61,8 +63,6 @@ const categoryLabels: { key: Category; label: string }[] = [
   { key: "all", label: "All" },
   { key: "web", label: "Web design" },
   { key: "performance", label: "Performance marketing" },
-  { key: "shoots", label: "Shoots" },
-  { key: "social", label: "Social media" },
 ];
 
 type OurWorkProps = {
@@ -74,11 +74,11 @@ const categoryAccent: Record<Category, string> = {
   all: "from-black via-slate-700 to-black",
   web: "from-emerald-400 via-teal-400 to-cyan-400",
   performance: "from-orange-400 via-red-500 to-pink-500",
-  shoots: "from-purple-400 via-fuchsia-500 to-indigo-500",
-  social: "from-yellow-300 via-pink-400 to-purple-500",
 };
 
 export default function OurWork({ activeCategory, onCategoryChange }: OurWorkProps) {
+  const [previewLink, setPreviewLink] = useState<string | null>(null);
+
   const filteredProjects = useMemo(
     () =>
       activeCategory === "all"
@@ -138,14 +138,19 @@ export default function OurWork({ activeCategory, onCategoryChange }: OurWorkPro
               key={project.id}
               whileHover={{ y: -6, scale: 1.01 }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-[0_18px_45px_rgba(15,23,42,0.18)] border border-black/5 flex flex-col"
+              className={`bg-white rounded-3xl overflow-hidden shadow-[0_18px_45px_rgba(15,23,42,0.18)] border border-black/5 flex flex-col ${project.link ? "cursor-pointer" : ""}`}
+              onClick={() => project.link && setPreviewLink(project.link)}
             >
               <div className="relative aspect-[16/9] bg-[#f0f0f0] overflow-hidden">
                 <div
                   className={`absolute inset-x-[-20%] -top-10 h-24 bg-gradient-to-r ${categoryAccent[project.category]} opacity-80 blur-2xl`}
                 />
                 <div className="relative z-10 h-full w-full">
-                  <PlaceholderImage />
+                  {project.cover ? (
+                    <img src={project.cover} alt={project.title} className="w-full h-full object-cover object-top" />
+                  ) : (
+                    <PlaceholderImage />
+                  )}
                 </div>
               </div>
               <div className="px-5 py-4 md:px-6 md:py-5 flex flex-col gap-2">
@@ -179,6 +184,40 @@ export default function OurWork({ activeCategory, onCategoryChange }: OurWorkPro
           ))}
         </div>
       </div>
+
+      {/* PDF Preview Modal */}
+      <AnimatePresence>
+        {previewLink && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-10"
+            onClick={() => setPreviewLink(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="relative w-full max-w-5xl h-[85vh] bg-white rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setPreviewLink(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/80 text-white flex items-center justify-center hover:bg-black transition-colors"
+              >
+                <X size={20} />
+              </button>
+              <iframe
+                src={previewLink}
+                className="w-full h-full border-0"
+                title="PDF Preview"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -9,7 +9,6 @@ const navLinks = [
   { label: "Service", href: "/#services" },
   { label: "Our Work", href: "/work" },
   { label: "Project", href: "/work" },
-  { label: "About Us", href: "/#about" },
 ] as const;
 
 export default function Navbar() {
@@ -21,6 +20,18 @@ export default function Navbar() {
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
+    const hash = href.split("#")[1];
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setMenuOpen(false);
+      }
+    }
+  };
 
   return (
     <>
@@ -43,6 +54,7 @@ export default function Navbar() {
             <Link
               key={link.label}
               to={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
               className="text-sm font-medium text-black/50 hover:text-black transition-colors duration-200"
             >
               {link.label}
@@ -90,7 +102,7 @@ export default function Navbar() {
               >
                 <Link
                   to={link.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className="text-4xl font-bold tracking-tight text-black hover:opacity-50 transition-opacity"
                 >
                   {link.label}
