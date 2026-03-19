@@ -167,7 +167,7 @@ export default function Portfolio() {
   const reels = reelsData[activeTab];
 
   return (
-    <section className="py-24 md:py-36 bg-[#F5F5F5] px-6 md:px-10 overflow-hidden">
+    <section id="work" className="py-24 md:py-36 bg-[#F5F5F5] px-6 md:px-10 overflow-hidden">
       {/* ── Tab slider ── */}
       <div className="flex justify-center mb-12">
         <div className="relative inline-flex items-center bg-black/[0.06] rounded-full p-1">

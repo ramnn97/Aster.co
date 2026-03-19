@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import PlaceholderImage from "./PlaceholderImage";
 import service1Img from "@/source/service-1.jpg";
 import service2Img from "@/source/service-2.jpg";
@@ -10,21 +11,25 @@ const services = [
   {
     id: 1,
     title: "Performance Marketing",
+    slug: "performance-marketing",
     desc: "We turn ad spend into measurable growth — scaling brands with data, strategy, and high-converting funnels.",
   },
   {
     id: 2,
     title: "Web Design",
+    slug: "web-design",
     desc: "Crafting pixel-perfect digital experiences that balance beauty with function — responsive, accessible, and built to convert.",
   },
   {
     id: 3,
     title: "Shoots & Product Shoot",
+    slug: "shoots-product-shoot",
     desc: "Premium product visuals that boost trust, clicks.",
   },
   {
     id: 4,
     title: "Social Media",
+    slug: "social-media",
     desc: "Aisa content jo brand banaye aur audience ko genuinely engage kare.",
   },
 ];
@@ -33,7 +38,7 @@ export default function Services() {
   const [expanded, setExpanded] = useState<number | null>(1);
 
   return (
-    <section className="py-24 md:py-36 bg-white px-6 md:px-10">
+    <section id="services" className="py-24 md:py-36 bg-white px-6 md:px-10">
       {/* Header */}
       <div className="grid grid-cols-12 gap-6 mb-14">
         <div className="col-span-12 lg:col-span-5">
@@ -44,13 +49,12 @@ export default function Services() {
             </span>
           </div>
           <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-bold tracking-[-0.04em] leading-none text-black">
-            my expertise
+            Our Services
           </h2>
         </div>
         <div className="col-span-12 lg:col-span-7 flex items-end">
           <p className="text-black/45 text-base md:text-lg leading-relaxed max-w-md">
-            With expertise in creating inspiring designs and effective visual
-            strategies, I help brands find an authentic and memorable identity.
+            With expertise in creating inspiring designs and effective visual strategies, we help brands find an authentic and memorable identity.
           </p>
         </div>
       </div>
@@ -99,9 +103,12 @@ export default function Services() {
                         {svc.desc}
                       </p>
 
-                      <button className="text-xs font-bold tracking-[0.1em] uppercase text-black/60 hover:text-black transition-colors self-start">
+                      <Link
+                        to={`/work#${svc.slug}`}
+                        className="inline-flex items-center text-xs font-bold tracking-[0.1em] uppercase text-black/60 hover:text-black transition-colors self-start"
+                      >
                         See More →
-                      </button>
+                      </Link>
                     </div>
                   </motion.div>
                 )}

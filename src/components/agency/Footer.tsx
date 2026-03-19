@@ -11,7 +11,11 @@ export default function Footer() {
         {/* Brand */}
         <div className="col-span-12 lg:col-span-4">
           <div className="flex items-center gap-2.5 mb-5">
-            <img src={logo} alt="Aster.co" className="h-8 w-auto object-contain brightness-0 invert" />
+            <img
+              src={logo}
+              alt="Aster.co"
+              className="h-10 w-auto object-contain"
+            />
           </div>
           <p className="text-white/40 text-sm leading-relaxed max-w-xs">
             We are a creative team that believes that every design has a story, and our job is to tell that story in the most impactful way possible.

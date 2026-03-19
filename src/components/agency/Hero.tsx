@@ -19,14 +19,17 @@ const SectionLabel = ({ children }: { children: string }) => (
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-[#F5F5F5] pt-28 pb-0 overflow-hidden flex flex-col">
+    <section
+      id="home"
+      className="relative min-h-screen bg-[#F5F5F5] pt-28 pb-0 overflow-hidden flex flex-col"
+    >
       {/* Top metadata row */}
       <div className="flex justify-between items-start px-6 md:px-10 mb-12">
         <motion.span {...fadeUp(0.1)} className="text-xs font-medium text-black/30 tracking-widest">
-          1950
+          Since 2025
         </motion.span>
         <motion.span {...fadeUp(0.15)} className="text-xs font-medium text-black/30 tracking-widest">
-          08–08
+          Based in India
         </motion.span>
       </div>
 
@@ -59,9 +62,9 @@ export default function Hero() {
             ))}
           </div>
           <p className="text-sm text-black/50 leading-snug max-w-xs text-left">
-            lorem ipsum con sectetur
+            We are a creative team that believes that every design has a story, and our job is to tell that story in the most impactful way possible.
             <br />
-            lorem ipsum consec
+            At Aster.co, we combine creativity with strategy to create relevant and functional designs.
           </p>
         </motion.div>
       </div>

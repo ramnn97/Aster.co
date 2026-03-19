@@ -9,7 +9,7 @@ const fadeUp = (delay = 0) => ({
 
 export default function About() {
   return (
-    <section className="py-32 md:py-48 bg-white px-6 md:px-10">
+    <section id="about" className="py-32 md:py-48 bg-white px-6 md:px-10">
       {/* Section label */}
       <motion.div {...fadeUp()} className="flex items-center justify-center gap-4 mb-14">
         <div className="w-10 h-px bg-black/20" />

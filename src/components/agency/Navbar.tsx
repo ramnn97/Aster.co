@@ -1,9 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "@/logo.png";
 
-const navLinks = ["Home", "Service", "Our Work", "Project", "About Us"];
+const navLinks = [
+  { label: "Home", href: "/#home" },
+  { label: "Service", href: "/#services" },
+  { label: "Our Work", href: "/work" },
+  { label: "Project", href: "/work" },
+  { label: "About Us", href: "/#about" },
+] as const;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,20 +33,20 @@ export default function Navbar() {
         }`}
       >
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2.5 group">
+        <Link to="/#home" className="flex items-center gap-2.5 group">
           <img src={logo} alt="Aster.co" className="h-10 w-auto object-contain mix-blend-multiply" />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
-              key={link}
-              href="#"
+            <Link
+              key={link.label}
+              to={link.href}
               className="text-sm font-medium text-black/50 hover:text-black transition-colors duration-200"
             >
-              {link}
-            </a>
+              {link.label}
+            </Link>
           ))}
         </div>
 
@@ -75,17 +82,20 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-[#F5F5F5] flex flex-col items-center justify-center gap-8 md:hidden"
           >
             {navLinks.map((link, i) => (
-              <motion.a
-                key={link}
-                href="#"
+              <motion.div
+                key={link.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.07 }}
-                onClick={() => setMenuOpen(false)}
-                className="text-4xl font-bold tracking-tight text-black hover:opacity-50 transition-opacity"
               >
-                {link}
-              </motion.a>
+                <Link
+                  to={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-4xl font-bold tracking-tight text-black hover:opacity-50 transition-opacity"
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
             <a
               href="https://calendly.com/ramanpandhare10/30min"
